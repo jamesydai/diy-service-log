@@ -5,18 +5,23 @@ import pb from '@/lib/pocketbase';
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { useRouter } from 'next/navigation';
+import { useRouter} from 'next/navigation';
+import { useParams } from 'next/navigation';
+
+
 
 
 export function AddNewForm() {
 
   const router = useRouter();
+  const { slug } = useParams();
+
 
   const [formData, setFormData] = useState({
-    year: '',
-    make: '',
-    model: '',
-    trim: ''
+    service_date: '',
+    service_mileage: '',
+    service_name: '',
+    service_desc: ''
   });
 
   const handleChange = (e:any) => {
@@ -27,16 +32,17 @@ export function AddNewForm() {
   const handleSubmit = async (e:any) => {
     e.preventDefault();
     try {
+      console.log(slug);
       const data = {
-        make: formData.make,
-        model: formData.model,
-        trim: formData.trim,
-        year: parseInt(formData.year, 10),
-        owner_id: pb.authStore.model?.id
+        service_date: formData.service_date,
+        service_mileage: formData.service_mileage,
+        service_name: formData.service_name,
+        service_desc: formData.service_desc,
+        vehicle_id: slug
       };
-      const record = await pb.collection('vehicles').create(data);
-      alert('Vehicle added successfully!');
-      router.replace('/vehicles');
+      const record = await pb.collection('services').create(data);
+      alert('Service added successfully!');
+      router.replace(`/vehicles/${slug}`);
     } catch (error) {
       console.error('Error creating vehicle:', error);
       alert('Failed to add vehicle');
@@ -55,52 +61,52 @@ export function AddNewForm() {
       <form className="space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
           <div className="space-y-2 sm:space-y-3">
-            <Label className="text-sm sm:text-base" htmlFor="year">
+            <Label className="text-sm sm:text-base" htmlFor="service_date">
               Date of Service
             </Label>
             <Input
               className="text-sm sm:text-base"
-              id="year"
-              placeholder="Enter year"
-              value={formData.year}
+              id="service_date"
+              placeholder="Enter date of service"
+              value={formData.service_date}
               onChange={handleChange}
             />
           </div>
           <div className="space-y-2 sm:space-y-3">
-            <Label className="text-sm sm:text-base" htmlFor="make">
+            <Label className="text-sm sm:text-base" htmlFor="service_mileage">
               Mileage
             </Label>
             <Input
               className="text-sm sm:text-base"
-              id="make"
-              placeholder="Enter make"
-              value={formData.make}
+              id="service_mileage"
+              placeholder="Enter Mileage"
+              value={formData.service_mileage}
               onChange={handleChange}
             />
           </div>
         </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
           <div className="space-y-2 sm:space-y-3">
-            <Label className="text-sm sm:text-base" htmlFor="model">
+            <Label className="text-sm sm:text-base" htmlFor="service_name">
               Service Name
             </Label>
             <Input
               className="text-sm sm:text-base"
-              id="model"
-              placeholder="Enter model"
-              value={formData.model}
+              id="service_name"
+              placeholder="Enter service name"
+              value={formData.service_name}
               onChange={handleChange}
             />
           </div>
           <div className="space-y-2 sm:space-y-3">
-            <Label className="text-sm sm:text-base" htmlFor="trim">
+            <Label className="text-sm sm:text-base" htmlFor="service_desc">
               Service Description
             </Label>
             <Input
               className="text-sm sm:text-base"
-              id="trim"
-              placeholder="Enter trim"
-              value={formData.trim}
+              id="service_desc"
+              placeholder="Enter service description"
+              value={formData.service_desc}
               onChange={handleChange}
             />
           </div>

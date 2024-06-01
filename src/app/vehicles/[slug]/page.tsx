@@ -7,6 +7,7 @@ import useAuthRedirect from '@/app/hooks/useAuthRedirect';
 import useFetchServices from '@/app/hooks/useFetchServices';
 import useFetchVehicleName from '@/app/hooks/useFetchVehicleName';
 import { TableHead, TableRow, TableHeader, TableBody, Table } from "@/components/ui/table"
+import Link from 'next/link';
 
 
 type PageProps = {
@@ -64,8 +65,11 @@ const Page: FC<PageProps> = ({ params }) =>  {
         </TableBody>
       </Table>
       </div>
+
       <div className="flex justify-center">
+      <Link href={`/vehicles/${params.slug}/add-new-record`}>
         <Button size="sm">Add Service Record</Button>
+      </Link>
       </div>
     </div>
   )

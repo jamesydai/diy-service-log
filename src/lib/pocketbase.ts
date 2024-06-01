@@ -1,6 +1,6 @@
 import PocketBase from 'pocketbase';
 
-const pb = new PocketBase('#'); // Adjust the URL to your PocketBase server
+const pb = new PocketBase('http://127.0.0.1:8090'); // Adjust the URL to your PocketBase server
 
 export const loadAuthStoreFromCookies = () => {
     if (typeof document !== 'undefined') {
